@@ -31,6 +31,22 @@ export default function useBooks() {
         }
     }
 
+    const updateBook = async (id) => {
+        errors.value = []
+
+        try {
+            await http.put(`/api/v1/books/${id}`, book.value)
+            await router.push({ name: 'books.details' })
+        } catch (e) {
+            console.log(e);
+            if (e.response.status === 422) {
+                for (const key in e.response.data.errors) {
+                    errors.value.push(e.response.data.errors[key][0]);
+                }
+            }
+        }
+    }
+
     const getBook = async (id) => {
         try {
             let response = await http.get(`/api/v1/books/${id}`)
@@ -50,7 +66,7 @@ export default function useBooks() {
         }
     }
 
-    const getUsers = async (data) => {
+    const getUsers = async () => {
         let response = await http.get('/api/v1/users')
         users.value = response.data.data;
     }
@@ -65,6 +81,7 @@ export default function useBooks() {
         destroyBook,
         createBook,
         getBook,
-        getUsers
+        getUsers,
+        updateBook
     }
 }

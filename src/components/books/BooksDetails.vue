@@ -11,6 +11,12 @@
       <li class="list-group-item"><b>Description:</b> {{ book.description }}</li>
     </ul>
   </table>
+
+  <div class="content-actions">
+    <router-link :to="{ name: 'books.update', params: { id: book.id} }">
+      Update book
+    </router-link>
+  </div>
 </template>
 
 <script>
